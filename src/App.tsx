@@ -1,52 +1,33 @@
 import { useEffect, useState } from "react";
 
-interface Joke {
-  id: number;
-  type: string;
-  setup: string;
-  punchline: string;
+interface Quote {
+  quote: string
 }
 
 function App() {
-  const [joke, setJoke] = useState<Joke>();
-
-  useEffect(() => {
-    const fetchJoke = async () => {
-      const response = await fetch(
-        "https://jokestemp.neillbogie.repl.co/jokes/general/random"
-      );
-      const jsonBody: Joke[] = await response.json();
-      setJoke(jsonBody[0]);
-    };
-
-    fetchJoke();
-  }, []);
+  const [quote, setQuote] = useState<Quote>();
 
   // useEffect(() => {
-  //   fetch("https://jokestemp.neillbogie.repl.co/jokes/general/random")
-  //     .then(response => response.json())
-  //     .then((jsonBody: Joke[]) => setJoke(jsonBody[0]));
+  //   const fetchQuote = async () => {
+  //     const response = await fetch("https://api.kanye.rest");
+  //     const jsonBody = await response.json();
+  //     setQuote(jsonBody.quote);
+  //   }
+  //   fetchQuote();
   // }, [])
+
+  useEffect (() => {
+    fetch("https://api.kanye.rest")
+    .then((response) => response.json())
+    .then ((jsonBody) => setQuote(jsonBody.quote));
+  }, [])
 
   return (
     <>
-      <h1>Joke app</h1>
-      {joke && (
-        // This is a conditional rendering strategy
-        //  using 'short-circuiting': if the left-hand
-        //  side of an && is false, then JavaScript
-        //  doesn't bother to evaluate the right-hand
-        //  side (since the overall expression is false
-        //  regardless)
-        //
-        // Exploiting that feature to conditional render JSX!
+      <h1>Kanye Quote app</h1>
+      {quote && (
         <>
-          <p>
-            <b>{joke.setup}</b>
-          </p>
-          <p>
-            <i>{joke.punchline}</i>
-          </p>
+          <i>{quote}</i>
         </>
       )}
     </>
